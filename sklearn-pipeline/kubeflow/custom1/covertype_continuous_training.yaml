@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: covertype-classifier-training-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-06T10:41:29.080104',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-12T13:05:12.279668',
     pipelines.kubeflow.org/pipeline_spec: '{"description": "The pipeline training
       and deploying the Covertype classifierpipeline_yaml", "inputs": [{"name": "project_id"},
       {"name": "region"}, {"name": "source_table_name"}, {"name": "gcs_root"}, {"name":
@@ -634,7 +634,7 @@ spec:
                 pass
             with open(output_file, 'w') as f:
                 f.write(_output_serializers[idx](_outputs[idx]))
-      image: gcr.io//base_image:latest
+      image: gcr.io/trr-assignments-staging/base_image:latest
     inputs:
       parameters:
       - {name: bigquery-query-3-output_gcs_path}
@@ -687,11 +687,12 @@ spec:
           = [\n    _serialize_str,\n    _serialize_float,\n    str,\n\n]\n\nimport
           os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
           OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
-          "image": "gcr.io//base_image:latest"}}, "inputs": [{"name": "dataset_path",
-          "type": "String"}, {"name": "model_path", "type": "String"}, {"name": "metric_name",
-          "type": "String"}], "name": "Evaluate model", "outputs": [{"name": "metric_name",
-          "type": "String"}, {"name": "metric_value", "type": "Float"}, {"name": "mlpipeline_metrics",
-          "type": "Metrics"}]}', pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"dataset_path":
+          "image": "gcr.io/trr-assignments-staging/base_image:latest"}}, "inputs":
+          [{"name": "dataset_path", "type": "String"}, {"name": "model_path", "type":
+          "String"}, {"name": "metric_name", "type": "String"}], "name": "Evaluate
+          model", "outputs": [{"name": "metric_name", "type": "String"}, {"name":
+          "metric_value", "type": "Float"}, {"name": "mlpipeline_metrics", "type":
+          "Metrics"}]}', pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"dataset_path":
           "{{inputs.parameters.bigquery-query-3-output_gcs_path}}", "metric_name":
           "{{inputs.parameters.evaluation_metric_name}}", "model_path": "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}"}'}
   - name: retrieve-best-run
@@ -776,7 +777,7 @@ spec:
                 pass
             with open(output_file, 'w') as f:
                 f.write(_output_serializers[idx](_outputs[idx]))
-      image: gcr.io//base_image:latest
+      image: gcr.io/trr-assignments-staging/base_image:latest
     inputs:
       parameters:
       - {name: project_id}
@@ -825,11 +826,12 @@ spec:
           = [\n    _serialize_float,\n    _serialize_float,\n    _serialize_int,\n\n]\n\nimport
           os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
           OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
-          "image": "gcr.io//base_image:latest"}}, "inputs": [{"name": "project_id",
-          "type": "String"}, {"name": "job_id", "type": "String"}], "name": "Retrieve
-          best run", "outputs": [{"name": "metric_value", "type": "Float"}, {"name":
-          "alpha", "type": "Float"}, {"name": "max_iter", "type": "Integer"}]}', pipelines.kubeflow.org/component_ref: '{}',
-        pipelines.kubeflow.org/arguments.parameters: '{"job_id": "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-job_id}}",
+          "image": "gcr.io/trr-assignments-staging/base_image:latest"}}, "inputs":
+          [{"name": "project_id", "type": "String"}, {"name": "job_id", "type": "String"}],
+          "name": "Retrieve best run", "outputs": [{"name": "metric_value", "type":
+          "Float"}, {"name": "alpha", "type": "Float"}, {"name": "max_iter", "type":
+          "Integer"}]}', pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"job_id":
+          "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-job_id}}",
           "project_id": "{{inputs.parameters.project_id}}"}'}
   - name: submitting-a-cloud-ml-training-job-as-a-pipeline-step
     container:
@@ -839,7 +841,7 @@ spec:
         '["--training_dataset_path", "{{inputs.parameters.bigquery-query-output_gcs_path}}",
           "--validation_dataset_path", "{{inputs.parameters.bigquery-query-2-output_gcs_path}}",
           "--hptune", "True"]', --job_dir, '{{inputs.parameters.gcs_root}}/jobdir/hypertune/{{workflow.uid}}',
-        --python_version, '', --runtime_version, '', --master_image_uri, 'gcr.io//pricing:latest',
+        --python_version, '', --runtime_version, '', --master_image_uri, 'gcr.io/trr-assignments-staging/pricing:latest',
         --worker_image_uri, '', --training_input, '{{inputs.parameters.hypertune_settings}}',
         --job_id_prefix, '', --wait_interval, '30']
       command: []
@@ -934,9 +936,9 @@ spec:
           \"{{inputs.parameters.bigquery-query-output_gcs_path}}\", \"--validation_dataset_path\",
           \"{{inputs.parameters.bigquery-query-2-output_gcs_path}}\", \"--hptune\",
           \"True\"]", "job_dir": "{{inputs.parameters.gcs_root}}/jobdir/hypertune/{{workflow.uid}}",
-          "job_id_prefix": "", "master_image_uri": "gcr.io//pricing:latest", "package_uris":
-          "", "project_id": "{{inputs.parameters.project_id}}", "python_module": "",
-          "python_version": "", "region": "{{inputs.parameters.region}}", "runtime_version":
+          "job_id_prefix": "", "master_image_uri": "gcr.io/trr-assignments-staging/pricing:latest",
+          "package_uris": "", "project_id": "{{inputs.parameters.project_id}}", "python_module":
+          "", "python_version": "", "region": "{{inputs.parameters.region}}", "runtime_version":
           "", "training_input": "{{inputs.parameters.hypertune_settings}}", "wait_interval":
           "30", "worker_image_uri": ""}'}
   - name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2
@@ -949,8 +951,9 @@ spec:
           "--alpha", "{{inputs.parameters.retrieve-best-run-alpha}}", "--max_iter",
           "{{inputs.parameters.retrieve-best-run-max_iter}}", "--hptune", "False"]',
         --job_dir, '{{inputs.parameters.gcs_root}}/jobdir/{{workflow.uid}}', --python_version,
-        '', --runtime_version, '', --master_image_uri, 'gcr.io//pricing:latest', --worker_image_uri,
-        '', --training_input, '', --job_id_prefix, '', --wait_interval, '30']
+        '', --runtime_version, '', --master_image_uri, 'gcr.io/trr-assignments-staging/pricing:latest',
+        --worker_image_uri, '', --training_input, '', --job_id_prefix, '', --wait_interval,
+        '30']
       command: []
       env:
       - {name: KFP_POD_NAME, value: '{{pod.name}}'}
@@ -1045,9 +1048,9 @@ spec:
           \"{{inputs.parameters.bigquery-query-2-output_gcs_path}}\", \"--alpha\",
           \"{{inputs.parameters.retrieve-best-run-alpha}}\", \"--max_iter\", \"{{inputs.parameters.retrieve-best-run-max_iter}}\",
           \"--hptune\", \"False\"]", "job_dir": "{{inputs.parameters.gcs_root}}/jobdir/{{workflow.uid}}",
-          "job_id_prefix": "", "master_image_uri": "gcr.io//pricing:latest", "package_uris":
-          "", "project_id": "{{inputs.parameters.project_id}}", "python_module": "",
-          "python_version": "", "region": "{{inputs.parameters.region}}", "runtime_version":
+          "job_id_prefix": "", "master_image_uri": "gcr.io/trr-assignments-staging/pricing:latest",
+          "package_uris": "", "project_id": "{{inputs.parameters.project_id}}", "python_module":
+          "", "python_version": "", "region": "{{inputs.parameters.region}}", "runtime_version":
           "", "training_input": "", "wait_interval": "30", "worker_image_uri": ""}'}
   arguments:
     parameters:
