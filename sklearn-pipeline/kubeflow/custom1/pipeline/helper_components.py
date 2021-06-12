@@ -1,6 +1,5 @@
 """Helper components."""
-
-from typing import NamedTuple
+from typing import NamedTuple, List
 
 
 def retrieve_best_run(
@@ -83,3 +82,20 @@ def evaluate_model(
   }
 
   return (metric_name, metric_value, json.dumps(metrics))
+
+
+def get_split_q(source_table_name: str, num_lots: int, lots: List):
+    from jinja2 import Template
+    """Prepares the data sampling query."""
+
+    sampling_query_template = """
+         SELECT *
+         FROM 
+             `{{ source_table }}` AS cover
+         WHERE 
+         MOD(ABS(FARM_FINGERPRINT(TO_JSON_STRING(cover))), {{ num_lots }}) IN ({{ lots }})
+         """
+    query = Template(sampling_query_template).render(
+        source_table=source_table_name, num_lots=num_lots, lots=str(lots)[1:-1])
+
+    return query

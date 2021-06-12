@@ -2,8 +2,7 @@
 
 import os
 
-from helper_components import evaluate_model
-from helper_components import retrieve_best_run
+from helper_components import evaluate_model, retrieve_best_run, get_split_q
 from jinja2 import Template
 import kfp
 from kfp.components import func_to_container_op
@@ -54,24 +53,6 @@ HYPERTUNE_SETTINGS = """
 }
 """
 
-
-# Helper functions
-def generate_sampling_query(source_table_name, num_lots, lots):
-    """Prepares the data sampling query."""
-
-    sampling_query_template = """
-         SELECT *
-         FROM 
-             `{{ source_table }}` AS cover
-         WHERE 
-         MOD(ABS(FARM_FINGERPRINT(TO_JSON_STRING(cover))), {{ num_lots }}) IN ({{ lots }})
-         """
-    query = Template(sampling_query_template).render(
-        source_table=source_table_name, num_lots=num_lots, lots=str(lots)[1:-1])
-
-    return query
-
-
 # Create component factories
 component_store = kfp.components.ComponentStore(
     local_search_paths=None, url_search_prefixes=[COMPONENT_URL_SEARCH_PREFIX])
@@ -102,49 +83,34 @@ def covertype_train(project_id,
                     dataset_location='US'):
     """Orchestrates training and deployment of an sklearn model."""
 
-    # Create the training split
-    query = generate_sampling_query(
-        source_table_name=source_table_name, num_lots=10, lots=[1, 2, 3, 4])
-
-    training_file_path = '{}/{}'.format(gcs_root, TRAINING_FILE_PATH)
-
+    #1 - Get Training Data
     create_training_split = bigquery_query_op(
-        query=query,
+        query=get_split_q(source_table_name, num_lots=10, lots=[1, 2, 3, 4]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path=training_file_path,
+        output_gcs_path='{}/{}'.format(gcs_root, TRAINING_FILE_PATH),
         dataset_location=dataset_location)
 
-    # Create the validation split
-    query = generate_sampling_query(
-        source_table_name=source_table_name, num_lots=10, lots=[8])
-
-    validation_file_path = '{}/{}'.format(gcs_root, VALIDATION_FILE_PATH)
-
+    #1 - Get Validation Data
     create_validation_split = bigquery_query_op(
-        query=query,
+        query=get_split_q(source_table_name, num_lots=10, lots=[8]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path=validation_file_path,
+        output_gcs_path='{}/{}'.format(gcs_root, VALIDATION_FILE_PATH),
         dataset_location=dataset_location)
 
-    # Create the testing split
-    query = generate_sampling_query(
-        source_table_name=source_table_name, num_lots=10, lots=[9])
-
-    testing_file_path = '{}/{}'.format(gcs_root, TESTING_FILE_PATH)
-
+    #1 - Get Testing Data
     create_testing_split = bigquery_query_op(
-        query=query,
+        query=get_split_q(source_table_name, num_lots=10, lots=[9]),,
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path=testing_file_path,
+        output_gcs_path='{}/{}'.format(gcs_root, TESTING_FILE_PATH),
         dataset_location=dataset_location)
 
-    # Tune hyperparameters
+    #2 TRAIN & Tune hyperparameters
     tune_args = [
         '--training_dataset_path',
         create_training_split.outputs['output_gcs_path'],
@@ -152,8 +118,7 @@ def covertype_train(project_id,
         create_validation_split.outputs['output_gcs_path'], '--hptune', 'True'
     ]
 
-    job_dir = '{}/{}/{}'.format(gcs_root, 'jobdir/hypertune',
-                                kfp.dsl.RUN_ID_PLACEHOLDER)
+    job_dir = '{}/{}/{}'.format(gcs_root, 'jobdir/hypertune', kfp.dsl.RUN_ID_PLACEHOLDER)
 
     hypertune = mlengine_train_op(
         project_id=project_id,
@@ -163,11 +128,11 @@ def covertype_train(project_id,
         args=tune_args,
         training_input=hypertune_settings)
 
-    # Retrieve the best trial
+    #3 - Retrieve the best trial
     get_best_trial = retrieve_best_run_op(
             project_id, hypertune.outputs['job_id'])
 
-    # Train the model on a combined training and validation datasets
+    #4 - Train the model on a combined training and validation datasets
     job_dir = '{}/{}/{}'.format(gcs_root, 'jobdir', kfp.dsl.RUN_ID_PLACEHOLDER)
 
     train_args = [
@@ -186,22 +151,23 @@ def covertype_train(project_id,
         job_dir=job_dir,
         args=train_args)
 
-    # Evaluate the model on the testing split
+    #5 - Evaluate the model on the testing split
     eval_model = evaluate_model_op(
         dataset_path=str(create_testing_split.outputs['output_gcs_path']),
         model_path=str(train_model.outputs['job_dir']),
         metric_name=evaluation_metric_name)
 
-    # Deploy the model if the primary metric is better than threshold
+    #6 - Deploy the model if the primary metric is better than threshold
     with kfp.dsl.Condition(eval_model.outputs['metric_value'] > evaluation_metric_threshold):
         deploy_model = mlengine_deploy_op(
-        model_uri=train_model.outputs['job_dir'],
-        project_id=project_id,
-        model_id=model_id,
-        version_id=version_id,
-        runtime_version=RUNTIME_VERSION,
-        python_version=PYTHON_VERSION,
-        replace_existing_version=replace_existing_version)
+            model_uri=train_model.outputs['job_dir'],
+            project_id=project_id,
+            model_id=model_id,
+            version_id=version_id,
+            runtime_version=RUNTIME_VERSION,
+            python_version=PYTHON_VERSION,
+            replace_existing_version=replace_existing_version
+        )
 
     # Configure the pipeline to run using the service account defined
     # in the user-gcp-sa k8s secret
