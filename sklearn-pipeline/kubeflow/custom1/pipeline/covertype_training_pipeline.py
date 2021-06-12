@@ -12,6 +12,7 @@ from kfp.dsl.types import GCPRegion
 from kfp.dsl.types import GCSPath
 from kfp.dsl.types import String
 from kfp.gcp import use_gcp_secret
+import yaml
 
 # Defaults and environment settings
 BASE_IMAGE = os.getenv('BASE_IMAGE')
@@ -21,37 +22,11 @@ PYTHON_VERSION = os.getenv('PYTHON_VERSION')
 COMPONENT_URL_SEARCH_PREFIX = os.getenv('COMPONENT_URL_SEARCH_PREFIX')
 USE_KFP_SA = os.getenv('USE_KFP_SA')
 
-TRAINING_FILE_PATH = 'datasets/training/data.csv'
-VALIDATION_FILE_PATH = 'datasets/validation/data.csv'
-TESTING_FILE_PATH = 'datasets/testing/data.csv'
-
 # Parameter defaults
 SPLITS_DATASET_ID = 'splits'
-HYPERTUNE_SETTINGS = """
-{
-    "hyperparameters":  {
-        "goal": "MAXIMIZE",
-        "maxTrials": 6,
-        "maxParallelTrials": 3,
-        "hyperparameterMetricTag": "accuracy",
-        "enableTrialEarlyStopping": True,
-        "params": [
-            {
-                "parameterName": "max_iter",
-                "type": "DISCRETE",
-                "discreteValues": [500, 1000]
-            },
-            {
-                "parameterName": "alpha",
-                "type": "DOUBLE",
-                "minValue": 0.0001,
-                "maxValue": 0.001,
-                "scaleType": "UNIT_LINEAR_SCALE"
-            }
-        ]
-    }
-}
-"""
+with open('./pipeline/hptuning_config.yaml') as file:
+    HYPERTUNE_SETTINGS = yaml.full_load(file)
+    HYPERTUNE_SETTINGS = str(HYPERTUNE_SETTINGS)
 
 # Create component factories
 component_store = kfp.components.ComponentStore(
@@ -60,14 +35,13 @@ component_store = kfp.components.ComponentStore(
 bigquery_query_op = component_store.load_component('bigquery/query')
 mlengine_train_op = component_store.load_component('ml_engine/train')
 mlengine_deploy_op = component_store.load_component('ml_engine/deploy')
-retrieve_best_run_op = func_to_container_op(
-    retrieve_best_run, base_image=BASE_IMAGE)
+retrieve_best_run_op = func_to_container_op(retrieve_best_run, base_image=BASE_IMAGE)
 evaluate_model_op = func_to_container_op(evaluate_model, base_image=BASE_IMAGE)
 
 
 @kfp.dsl.pipeline(
-    name='Covertype Classifier Training',
-    description='The pipeline training and deploying the Covertype classifierpipeline_yaml'
+    name='Pricing Training Test',
+    description='The pipeline training and deploying the Pricing Example'
 )
 def covertype_train(project_id,
                     region,
@@ -85,29 +59,29 @@ def covertype_train(project_id,
 
     #1 - Get Training Data
     create_training_split = bigquery_query_op(
-        query=get_split_q(source_table_name, num_lots=10, lots=[1, 2, 3, 4]),
+        query=get_split_q(source_table_name, num_lots=100, lots=[1, 2, 3, 98, 99]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{}/{}'.format(gcs_root, TRAINING_FILE_PATH),
+        output_gcs_path='{gcs_root}/datasets/pricing/training/data.csv',
         dataset_location=dataset_location)
 
     #1 - Get Validation Data
     create_validation_split = bigquery_query_op(
-        query=get_split_q(source_table_name, num_lots=10, lots=[8]),
+        query=get_split_q(source_table_name, num_lots=100, lots=[8]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{}/{}'.format(gcs_root, VALIDATION_FILE_PATH),
+        output_gcs_path='{gcs_root}/datasets/pricing/validation/data.csv',
         dataset_location=dataset_location)
 
     #1 - Get Testing Data
     create_testing_split = bigquery_query_op(
-        query=get_split_q(source_table_name, num_lots=10, lots=[9]),,
+        query=get_split_q(source_table_name, num_lots=100, lots=[9]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{}/{}'.format(gcs_root, TESTING_FILE_PATH),
+        output_gcs_path='{gcs_root}/datasets/pricing/testing/data.csv',
         dataset_location=dataset_location)
 
     #2 TRAIN & Tune hyperparameters
@@ -129,8 +103,7 @@ def covertype_train(project_id,
         training_input=hypertune_settings)
 
     #3 - Retrieve the best trial
-    get_best_trial = retrieve_best_run_op(
-            project_id, hypertune.outputs['job_id'])
+    get_best_trial = retrieve_best_run_op(project_id, hypertune.outputs['job_id'])
 
     #4 - Train the model on a combined training and validation datasets
     job_dir = '{}/{}/{}'.format(gcs_root, 'jobdir', kfp.dsl.RUN_ID_PLACEHOLDER)
@@ -139,9 +112,11 @@ def covertype_train(project_id,
         '--training_dataset_path',
         create_training_split.outputs['output_gcs_path'],
         '--validation_dataset_path',
-        create_validation_split.outputs['output_gcs_path'], '--alpha',
-        get_best_trial.outputs['alpha'], '--max_iter',
-        get_best_trial.outputs['max_iter'], '--hptune', 'False'
+        create_validation_split.outputs['output_gcs_path'], 
+        '--min_samples_leaf', get_best_trial.outputs['min_samples_leaf'], 
+        '--max_depth', get_best_trial.outputs['max_depth'], 
+        '--max_features', get_best_trial.outputs['max_features'], 
+        '--hptune', 'False'
     ]
 
     train_model = mlengine_train_op(

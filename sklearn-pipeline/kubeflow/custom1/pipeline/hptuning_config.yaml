@@ -1,0 +1,20 @@
+hyperparameters:
+  goal: MAXIMIZE
+  maxTrials: 2
+  maxParallelTrials: 2
+  hyperparameterMetricTag: accuracy
+  enableTrialEarlyStopping: TRUE 
+  params:
+  - parameterName: min_samples_leaf
+    type: DISCRETE
+    discreteValues: [2, 10, 20]
+  - parameterName: max_depth
+    type: INTEGER
+    minValue:  3
+    maxValue:  10
+    scaleType: UNIT_LINEAR_SCALE
+  - parameterName: max_features
+    type: INTEGER
+    minValue:  8
+    maxValue:  13
+    scaleType: UNIT_LINEAR_SCALE

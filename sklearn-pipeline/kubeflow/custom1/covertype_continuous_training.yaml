@@ -2,22 +2,19 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: covertype-classifier-training-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-12T13:05:12.279668',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-12T14:43:49.796989',
     pipelines.kubeflow.org/pipeline_spec: '{"description": "The pipeline training
       and deploying the Covertype classifierpipeline_yaml", "inputs": [{"name": "project_id"},
       {"name": "region"}, {"name": "source_table_name"}, {"name": "gcs_root"}, {"name":
       "dataset_id"}, {"name": "evaluation_metric_name"}, {"name": "evaluation_metric_threshold"},
       {"name": "model_id"}, {"name": "version_id"}, {"name": "replace_existing_version"},
-      {"default": "\n{\n    \"hyperparameters\":  {\n        \"goal\": \"MAXIMIZE\",\n        \"maxTrials\":
-      6,\n        \"maxParallelTrials\": 3,\n        \"hyperparameterMetricTag\":
-      \"accuracy\",\n        \"enableTrialEarlyStopping\": True,\n        \"params\":
-      [\n            {\n                \"parameterName\": \"max_iter\",\n                \"type\":
-      \"DISCRETE\",\n                \"discreteValues\": [500, 1000]\n            },\n            {\n                \"parameterName\":
-      \"alpha\",\n                \"type\": \"DOUBLE\",\n                \"minValue\":
-      0.0001,\n                \"maxValue\": 0.001,\n                \"scaleType\":
-      \"UNIT_LINEAR_SCALE\"\n            }\n        ]\n    }\n}\n", "name": "hypertune_settings",
-      "optional": true}, {"default": "US", "name": "dataset_location", "optional":
-      true}], "name": "Covertype Classifier Training"}'}
+      {"default": "{''hyperparameters'': {''goal'': ''MAXIMIZE'', ''maxTrials'': 6,
+      ''maxParallelTrials'': 3, ''hyperparameterMetricTag'': ''accuracy'', ''enableTrialEarlyStopping'':
+      True, ''params'': [{''parameterName'': ''max_iter'', ''type'': ''DISCRETE'',
+      ''discreteValues'': [500, 1000]}, {''parameterName'': ''alpha'', ''type'': ''DOUBLE'',
+      ''minValue'': 0.0001, ''maxValue'': 0.001, ''scaleType'': ''UNIT_LINEAR_SCALE''}]}}",
+      "name": "hypertune_settings", "optional": true}, {"default": "US", "name": "dataset_location",
+      "optional": true}], "name": "Covertype Classifier Training"}'}
   labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3}
 spec:
   entrypoint: covertype-classifier-training
@@ -1064,31 +1061,11 @@ spec:
     - {name: model_id}
     - {name: version_id}
     - {name: replace_existing_version}
-    - name: hypertune_settings
-      value: |2
-
-        {
-            "hyperparameters":  {
-                "goal": "MAXIMIZE",
-                "maxTrials": 6,
-                "maxParallelTrials": 3,
-                "hyperparameterMetricTag": "accuracy",
-                "enableTrialEarlyStopping": True,
-                "params": [
-                    {
-                        "parameterName": "max_iter",
-                        "type": "DISCRETE",
-                        "discreteValues": [500, 1000]
-                    },
-                    {
-                        "parameterName": "alpha",
-                        "type": "DOUBLE",
-                        "minValue": 0.0001,
-                        "maxValue": 0.001,
-                        "scaleType": "UNIT_LINEAR_SCALE"
-                    }
-                ]
-            }
-        }
+    - {name: hypertune_settings, value: '{''hyperparameters'': {''goal'': ''MAXIMIZE'',
+        ''maxTrials'': 6, ''maxParallelTrials'': 3, ''hyperparameterMetricTag'': ''accuracy'',
+        ''enableTrialEarlyStopping'': True, ''params'': [{''parameterName'': ''max_iter'',
+        ''type'': ''DISCRETE'', ''discreteValues'': [500, 1000]}, {''parameterName'':
+        ''alpha'', ''type'': ''DOUBLE'', ''minValue'': 0.0001, ''maxValue'': 0.001,
+        ''scaleType'': ''UNIT_LINEAR_SCALE''}]}}'}
     - {name: dataset_location, value: US}
   serviceAccountName: pipeline-runner
