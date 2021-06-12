@@ -57,13 +57,15 @@ def covertype_train(project_id,
                     dataset_location='US'):
     """Orchestrates training and deployment of an sklearn model."""
 
+    BASE_PATH = '{}/datasets/pricing/{}/data.csv'
+
     #1 - Get Training Data
     create_training_split = bigquery_query_op(
         query=get_split_q(source_table_name, num_lots=100, lots=[1, 2, 3, 98, 99]),
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{gcs_root}/datasets/pricing/training/data.csv',
+        output_gcs_path=BASE_PATH.format(gcs_root,'training'),
         dataset_location=dataset_location)
 
     #1 - Get Validation Data
@@ -72,7 +74,7 @@ def covertype_train(project_id,
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{gcs_root}/datasets/pricing/validation/data.csv',
+        output_gcs_path=BASE_PATH.format(gcs_root,'validation'),
         dataset_location=dataset_location)
 
     #1 - Get Testing Data
@@ -81,7 +83,7 @@ def covertype_train(project_id,
         project_id=project_id,
         dataset_id=dataset_id,
         table_id='',
-        output_gcs_path='{gcs_root}/datasets/pricing/testing/data.csv',
+        output_gcs_path=BASE_PATH.format(gcs_root,'testing'),
         dataset_location=dataset_location)
 
     #2 TRAIN & Tune hyperparameters
