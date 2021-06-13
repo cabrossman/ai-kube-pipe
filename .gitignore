@@ -131,3 +131,4 @@ dmypy.json
 #PERSONAL
 .DS_Store
 .local.env.vars
+.vscode
