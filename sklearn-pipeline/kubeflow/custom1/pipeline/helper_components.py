@@ -87,6 +87,41 @@ def evaluate_model(
   return (metric_name, metric_value, json.dumps(metrics))
 
 
+def overwrite_production_model(root: str, input_path: str, model_id: str, version: str
+) -> NamedTuple('Outputs', [('destination_blob_name', str)]):
+    from google.cloud import storage
+    """Copies a blob from one bucket to another with a new name."""
+
+    bucket_name = root.split('/')[2]
+
+    tmp = '/'.join(input_path.split(bucket_name)[1].split('/')[1:])
+    blob_name = '{}/model.pkl'.format(tmp)
+
+    destination_bucket_name = 'kubeflow-prod-bucket-ex'
+    destination_blob_name = 'pricing/model/{}/version/{}/model.pkl'.format(model_id, version)
+
+    storage_client = storage.Client()
+
+    source_bucket = storage_client.bucket(bucket_name)
+    source_blob = source_bucket.blob(blob_name)
+    destination_bucket = storage_client.bucket(destination_bucket_name)
+
+    blob_copy = source_bucket.copy_blob(
+        source_blob, destination_bucket, destination_blob_name
+    )
+
+    print(
+        "Blob {} in bucket {} copied to blob {} in bucket {}.".format(
+            source_blob.name,
+            source_bucket.name,
+            blob_copy.name,
+            destination_bucket.name,
+        )
+    )
+
+    return (destination_blob_name)
+
+
 def get_split_q(source_table_name: str, num_lots: int, lots: List):
     from jinja2 import Template
     """Prepares the data sampling query."""
@@ -121,3 +156,4 @@ def get_split_q(source_table_name: str, num_lots: int, lots: List):
         source_table=source_table_name, num_lots=num_lots, lots=str(lots)[1:-1])
 
     return query
+

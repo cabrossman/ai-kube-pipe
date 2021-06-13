@@ -1,8 +1,9 @@
 """KFP pipeline orchestrating BigQuery and Cloud AI Platform services."""
 
 import os
+from sys import version
 
-from helper_components import evaluate_model, retrieve_best_run, get_split_q
+from helper_components import evaluate_model, retrieve_best_run, get_split_q, overwrite_production_model
 from jinja2 import Template
 import kfp
 from kfp.components import func_to_container_op
@@ -37,6 +38,7 @@ mlengine_train_op = component_store.load_component('ml_engine/train')
 mlengine_deploy_op = component_store.load_component('ml_engine/deploy')
 retrieve_best_run_op = func_to_container_op(retrieve_best_run, base_image=BASE_IMAGE)
 evaluate_model_op = func_to_container_op(evaluate_model, base_image=BASE_IMAGE)
+overwrite_production_model_op = func_to_container_op(overwrite_production_model, base_image=BASE_IMAGE)
 
 
 @kfp.dsl.pipeline(
@@ -52,7 +54,6 @@ def covertype_train(project_id,
                     evaluation_metric_threshold,
                     model_id,
                     version_id,
-                    replace_existing_version,
                     hypertune_settings=HYPERTUNE_SETTINGS,
                     dataset_location='US'):
     """Orchestrates training and deployment of an sklearn model."""
@@ -136,15 +137,11 @@ def covertype_train(project_id,
 
     #6 - Deploy the model if the primary metric is better than threshold
     with kfp.dsl.Condition(eval_model.outputs['metric_value'] > evaluation_metric_threshold):
-        deploy_model = mlengine_deploy_op(
-            model_uri=train_model.outputs['job_dir'],
-            project_id=project_id,
-            model_id=model_id,
-            version_id=version_id,
-            runtime_version=RUNTIME_VERSION,
-            python_version=PYTHON_VERSION,
-            replace_existing_version=replace_existing_version
-        )
+        deploy_model = overwrite_production_model_op(root=gcs_root, 
+                            input_path=str(train_model.outputs['job_dir']),
+                            model_id=model_id,
+                            version=version_id
+                        )
 
     # Configure the pipeline to run using the service account defined
     # in the user-gcp-sa k8s secret

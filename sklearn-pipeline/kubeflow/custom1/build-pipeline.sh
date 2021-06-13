@@ -11,7 +11,6 @@ EVALUATION_METRIC=accuracy
 EVALUATION_METRIC_THRESHOLD=0.69
 MODEL_ID=pricing_classifier
 VERSION_ID=v01
-REPLACE_EXISTING_VERSION=True
 GCS_STAGING_PATH=$ARTIFACT_STORE/staging
 
 
@@ -49,5 +48,4 @@ kfp --endpoint $ENDPOINT run submit \
     evaluation_metric_name=$EVALUATION_METRIC \
     evaluation_metric_threshold=$EVALUATION_METRIC_THRESHOLD \
     model_id=$MODEL_ID \
-    version_id=$VERSION_ID \
-    replace_existing_version=$REPLACE_EXISTING_VERSION
+    version_id=$VERSION_ID

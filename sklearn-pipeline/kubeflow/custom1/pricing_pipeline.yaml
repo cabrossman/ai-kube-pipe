@@ -2,21 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
   generateName: pricing-training-test-
-  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-12T16:04:56.590504',
+  annotations: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline_compilation_time: '2021-06-12T19:08:01.178777',
     pipelines.kubeflow.org/pipeline_spec: '{"description": "The pipeline training
       and deploying the Pricing Example", "inputs": [{"name": "project_id"}, {"name":
       "region"}, {"name": "source_table_name"}, {"name": "gcs_root"}, {"name": "dataset_id"},
       {"name": "evaluation_metric_name"}, {"name": "evaluation_metric_threshold"},
-      {"name": "model_id"}, {"name": "version_id"}, {"name": "replace_existing_version"},
-      {"default": "{''hyperparameters'': {''goal'': ''MAXIMIZE'', ''maxTrials'': 2,
-      ''maxParallelTrials'': 2, ''hyperparameterMetricTag'': ''accuracy'', ''enableTrialEarlyStopping'':
-      True, ''params'': [{''parameterName'': ''min_samples_leaf'', ''type'': ''DISCRETE'',
-      ''discreteValues'': [2, 10, 20]}, {''parameterName'': ''max_depth'', ''type'':
-      ''INTEGER'', ''minValue'': 3, ''maxValue'': 10, ''scaleType'': ''UNIT_LINEAR_SCALE''},
-      {''parameterName'': ''max_features'', ''type'': ''INTEGER'', ''minValue'': 8,
-      ''maxValue'': 13, ''scaleType'': ''UNIT_LINEAR_SCALE''}]}}", "name": "hypertune_settings",
-      "optional": true}, {"default": "US", "name": "dataset_location", "optional":
-      true}], "name": "Pricing Training Test"}'}
+      {"name": "model_id"}, {"name": "version_id"}, {"default": "{''hyperparameters'':
+      {''goal'': ''MAXIMIZE'', ''maxTrials'': 2, ''maxParallelTrials'': 2, ''hyperparameterMetricTag'':
+      ''accuracy'', ''enableTrialEarlyStopping'': True, ''params'': [{''parameterName'':
+      ''min_samples_leaf'', ''type'': ''DISCRETE'', ''discreteValues'': [2, 10, 20]},
+      {''parameterName'': ''max_depth'', ''type'': ''INTEGER'', ''minValue'': 3, ''maxValue'':
+      10, ''scaleType'': ''UNIT_LINEAR_SCALE''}, {''parameterName'': ''max_features'',
+      ''type'': ''INTEGER'', ''minValue'': 8, ''maxValue'': 13, ''scaleType'': ''UNIT_LINEAR_SCALE''}]}}",
+      "name": "hypertune_settings", "optional": true}, {"default": "US", "name": "dataset_location",
+      "optional": true}], "name": "Pricing Training Test"}'}
   labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3}
 spec:
   entrypoint: pricing-training-test
@@ -336,143 +335,21 @@ spec:
   - name: condition-1
     inputs:
       parameters:
+      - {name: gcs_root}
       - {name: model_id}
-      - {name: project_id}
-      - {name: replace_existing_version}
       - {name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}
       - {name: version_id}
     dag:
       tasks:
-      - name: deploying-a-trained-model-to-cloud-machine-learning-engine
-        template: deploying-a-trained-model-to-cloud-machine-learning-engine
+      - name: overwrite-production-model
+        template: overwrite-production-model
         arguments:
           parameters:
+          - {name: gcs_root, value: '{{inputs.parameters.gcs_root}}'}
           - {name: model_id, value: '{{inputs.parameters.model_id}}'}
-          - {name: project_id, value: '{{inputs.parameters.project_id}}'}
-          - {name: replace_existing_version, value: '{{inputs.parameters.replace_existing_version}}'}
           - {name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir,
             value: '{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}'}
           - {name: version_id, value: '{{inputs.parameters.version_id}}'}
-  - name: deploying-a-trained-model-to-cloud-machine-learning-engine
-    container:
-      args:
-      - --ui_metadata_path
-      - /tmp/outputs/MLPipeline_UI_metadata/data
-      - kfp_component.google.ml_engine
-      - deploy
-      - --model_uri
-      - '{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}'
-      - --project_id
-      - '{{inputs.parameters.project_id}}'
-      - --model_id
-      - '{{inputs.parameters.model_id}}'
-      - --version_id
-      - '{{inputs.parameters.version_id}}'
-      - --runtime_version
-      - '1.15'
-      - --python_version
-      - '3.7'
-      - --model
-      - ''
-      - --version
-      - ''
-      - --replace_existing_version
-      - '{{inputs.parameters.replace_existing_version}}'
-      - --set_default
-      - "False"
-      - --wait_interval
-      - '30'
-      command: []
-      env:
-      - {name: KFP_POD_NAME, value: '{{pod.name}}'}
-      - name: KFP_POD_NAME
-        valueFrom:
-          fieldRef: {fieldPath: metadata.name}
-      - name: KFP_NAMESPACE
-        valueFrom:
-          fieldRef: {fieldPath: metadata.namespace}
-      - name: WORKFLOW_ID
-        valueFrom:
-          fieldRef: {fieldPath: 'metadata.labels[''workflows.argoproj.io/workflow'']'}
-      image: gcr.io/ml-pipeline/ml-pipeline-gcp:e66dcb18607406330f953bf99b04fe7c3ed1a4a8
-    inputs:
-      parameters:
-      - {name: model_id}
-      - {name: project_id}
-      - {name: replace_existing_version}
-      - {name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}
-      - {name: version_id}
-    outputs:
-      artifacts:
-      - {name: mlpipeline-ui-metadata, path: /tmp/outputs/MLPipeline_UI_metadata/data}
-      - {name: deploying-a-trained-model-to-cloud-machine-learning-engine-model_name,
-        path: /tmp/kfp/output/ml_engine/model_name.txt}
-      - {name: deploying-a-trained-model-to-cloud-machine-learning-engine-model_uri,
-        path: /tmp/kfp/output/ml_engine/model_uri.txt}
-      - {name: deploying-a-trained-model-to-cloud-machine-learning-engine-version_name,
-        path: /tmp/kfp/output/ml_engine/version_name.txt}
-    metadata:
-      labels:
-        add-pod-env: "true"
-        pipelines.kubeflow.org/kfp_sdk_version: 1.6.3
-        pipelines.kubeflow.org/pipeline-sdk-type: kfp
-      annotations: {pipelines.kubeflow.org/component_spec: '{"description": "A Kubeflow
-          Pipeline component to deploy a trained model from a Cloud Storage\npath
-          to a Cloud Machine Learning Engine service.\n", "implementation": {"container":
-          {"args": ["--ui_metadata_path", {"outputPath": "MLPipeline UI metadata"},
-          "kfp_component.google.ml_engine", "deploy", "--model_uri", {"inputValue":
-          "model_uri"}, "--project_id", {"inputValue": "project_id"}, "--model_id",
-          {"inputValue": "model_id"}, "--version_id", {"inputValue": "version_id"},
-          "--runtime_version", {"inputValue": "runtime_version"}, "--python_version",
-          {"inputValue": "python_version"}, "--model", {"inputValue": "model"}, "--version",
-          {"inputValue": "version"}, "--replace_existing_version", {"inputValue":
-          "replace_existing_version"}, "--set_default", {"inputValue": "set_default"},
-          "--wait_interval", {"inputValue": "wait_interval"}], "env": {"KFP_POD_NAME":
-          "{{pod.name}}"}, "fileOutputs": {"model_name": "/tmp/kfp/output/ml_engine/model_name.txt",
-          "model_uri": "/tmp/kfp/output/ml_engine/model_uri.txt", "version_name":
-          "/tmp/kfp/output/ml_engine/version_name.txt"}, "image": "gcr.io/ml-pipeline/ml-pipeline-gcp:e66dcb18607406330f953bf99b04fe7c3ed1a4a8"}},
-          "inputs": [{"description": "Required. The Cloud Storage URI which contains
-          a model file. Commonly  used TF model search paths (export/exporter) will
-          be used if they exist.", "name": "model_uri", "type": "GCSPath"}, {"description":
-          "Required.The ID of the parent project of the serving model.", "name": "project_id",
-          "type": "GCPProjectID"}, {"default": "", "description": "Optional. The user-specified
-          name of the model. If it is not provided,  the operation uses a random name.",
-          "name": "model_id", "type": "String"}, {"default": "", "description": "Optional.
-          The user-specified name of the version. If it is not provided,  the operation
-          uses a random name.", "name": "version_id", "type": "String"}, {"default":
-          "", "description": "Optional. The [Cloud ML Engine runtime version](https://cloud.google.com/ml-engine/docs/tensorflow/runtime-version-list)
-          to use for  this deployment. If it is not set, the Cloud ML Engine uses
-          the default  stable version, 1.0.", "name": "runtime_version", "type": "String"},
-          {"default": "", "description": "Optional. The version of Python used in
-          the prediction. If it is not set,  the default version is `2.7`. Python
-          `3.5` is available when the  runtime_version is set to `1.4` and above.
-          Python `2.7` works with all  supported runtime versions.", "name": "python_version",
-          "type": "String"}, {"default": "", "description": "Optional. The JSON payload
-          of the new  [Model](https://cloud.google.com/ml-engine/reference/rest/v1/projects.models),
-          if it does not exist.", "name": "model", "type": "Dict"}, {"default": "",
-          "description": "Optional. The JSON payload of the new  [Version](https://cloud.google.com/ml-engine/reference/rest/v1/projects.models.versions).",
-          "name": "version", "type": "Dict"}, {"default": "Fasle", "description":
-          "A Boolean flag that indicates whether to replace existing version in case
-          of conflict.", "name": "replace_existing_version", "type": "Bool"}, {"default":
-          "False", "description": "A Boolean flag that indicates whether to set the
-          new version as default version in the model.", "name": "set_default", "type":
-          "Bool"}, {"default": "30", "description": "A time-interval to wait for in
-          case the operation has a long run time.", "name": "wait_interval", "type":
-          "Integer"}], "metadata": {"labels": {"add-pod-env": "true"}}, "name": "Deploying
-          a trained model to Cloud Machine Learning Engine", "outputs": [{"description":
-          "The Cloud Storage URI of the trained model.", "name": "model_uri", "type":
-          "GCSPath"}, {"description": "The name of the deployed model.", "name": "model_name",
-          "type": "String"}, {"description": "The name of the deployed version.",
-          "name": "version_name", "type": "String"}, {"name": "MLPipeline UI metadata",
-          "type": "UI metadata"}]}', pipelines.kubeflow.org/component_ref: '{"digest":
-          "f5d0e68a796e39f9e672f4205644db1141e5267a8eb8594845c8abdb04018382", "name":
-          "ml_engine/deploy", "url": "https://raw.githubusercontent.com/kubeflow/pipelines/0.2.5/components/gcp/ml_engine/deploy/component.yaml"}',
-        pipelines.kubeflow.org/arguments.parameters: '{"model": "", "model_id": "{{inputs.parameters.model_id}}",
-          "model_uri": "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}",
-          "project_id": "{{inputs.parameters.project_id}}", "python_version": "3.7",
-          "replace_existing_version": "{{inputs.parameters.replace_existing_version}}",
-          "runtime_version": "1.15", "set_default": "False", "version": "", "version_id":
-          "{{inputs.parameters.version_id}}", "wait_interval": "30"}'}
   - name: evaluate-model
     container:
       args: [--dataset-path, '{{inputs.parameters.bigquery-query-3-output_gcs_path}}',
@@ -638,6 +515,131 @@ spec:
           "Metrics"}]}', pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"dataset_path":
           "{{inputs.parameters.bigquery-query-3-output_gcs_path}}", "metric_name":
           "{{inputs.parameters.evaluation_metric_name}}", "model_path": "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}"}'}
+  - name: overwrite-production-model
+    container:
+      args: [--root, '{{inputs.parameters.gcs_root}}', --input-path, '{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}',
+        --model-id, '{{inputs.parameters.model_id}}', --version, '{{inputs.parameters.version_id}}',
+        '----output-paths', /tmp/outputs/destination_blob_name/data]
+      command:
+      - sh
+      - -ec
+      - |
+        program_path=$(mktemp)
+        printf "%s" "$0" > "$program_path"
+        python3 -u "$program_path" "$@"
+      - |
+        def overwrite_production_model(root, input_path, model_id, version
+        ):
+            from google.cloud import storage
+            """Copies a blob from one bucket to another with a new name."""
+
+            bucket_name = root.split('/')[2]
+
+            tmp = '/'.join(input_path.split(bucket_name)[1].split('/')[1:])
+            blob_name = '{}/model.pkl'.format(tmp)
+
+            destination_bucket_name = 'kubeflow-prod-bucket-ex'
+            destination_blob_name = 'pricing/model/{}/version/{}/model.pkl'.format(model_id, version)
+
+            storage_client = storage.Client()
+
+            source_bucket = storage_client.bucket(bucket_name)
+            source_blob = source_bucket.blob(blob_name)
+            destination_bucket = storage_client.bucket(destination_bucket_name)
+
+            blob_copy = source_bucket.copy_blob(
+                source_blob, destination_bucket, destination_blob_name
+            )
+
+            print(
+                "Blob {} in bucket {} copied to blob {} in bucket {}.".format(
+                    source_blob.name,
+                    source_bucket.name,
+                    blob_copy.name,
+                    destination_bucket.name,
+                )
+            )
+
+            return (destination_blob_name)
+
+        def _serialize_str(str_value: str) -> str:
+            if not isinstance(str_value, str):
+                raise TypeError('Value "{}" has type "{}" instead of str.'.format(str(str_value), str(type(str_value))))
+            return str_value
+
+        import argparse
+        _parser = argparse.ArgumentParser(prog='Overwrite production model', description='')
+        _parser.add_argument("--root", dest="root", type=str, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("--input-path", dest="input_path", type=str, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("--model-id", dest="model_id", type=str, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("--version", dest="version", type=str, required=True, default=argparse.SUPPRESS)
+        _parser.add_argument("----output-paths", dest="_output_paths", type=str, nargs=1)
+        _parsed_args = vars(_parser.parse_args())
+        _output_files = _parsed_args.pop("_output_paths", [])
+
+        _outputs = overwrite_production_model(**_parsed_args)
+
+        _output_serializers = [
+            _serialize_str,
+
+        ]
+
+        import os
+        for idx, output_file in enumerate(_output_files):
+            try:
+                os.makedirs(os.path.dirname(output_file))
+            except OSError:
+                pass
+            with open(output_file, 'w') as f:
+                f.write(_output_serializers[idx](_outputs[idx]))
+      image: gcr.io/trr-assignments-staging/base_image:latest
+    inputs:
+      parameters:
+      - {name: gcs_root}
+      - {name: model_id}
+      - {name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}
+      - {name: version_id}
+    outputs:
+      artifacts:
+      - {name: overwrite-production-model-destination_blob_name, path: /tmp/outputs/destination_blob_name/data}
+    metadata:
+      labels: {pipelines.kubeflow.org/kfp_sdk_version: 1.6.3, pipelines.kubeflow.org/pipeline-sdk-type: kfp}
+      annotations: {pipelines.kubeflow.org/component_spec: '{"implementation": {"container":
+          {"args": ["--root", {"inputValue": "root"}, "--input-path", {"inputValue":
+          "input_path"}, "--model-id", {"inputValue": "model_id"}, "--version", {"inputValue":
+          "version"}, "----output-paths", {"outputPath": "destination_blob_name"}],
+          "command": ["sh", "-ec", "program_path=$(mktemp)\nprintf \"%s\" \"$0\" >
+          \"$program_path\"\npython3 -u \"$program_path\" \"$@\"\n", "def overwrite_production_model(root,
+          input_path, model_id, version\n):\n    from google.cloud import storage\n    \"\"\"Copies
+          a blob from one bucket to another with a new name.\"\"\"\n\n    bucket_name
+          = root.split(''/'')[2]\n\n    tmp = ''/''.join(input_path.split(bucket_name)[1].split(''/'')[1:])\n    blob_name
+          = ''{}/model.pkl''.format(tmp)\n\n    destination_bucket_name = ''kubeflow-prod-bucket-ex''\n    destination_blob_name
+          = ''pricing/model/{}/version/{}/model.pkl''.format(model_id, version)\n\n    storage_client
+          = storage.Client()\n\n    source_bucket = storage_client.bucket(bucket_name)\n    source_blob
+          = source_bucket.blob(blob_name)\n    destination_bucket = storage_client.bucket(destination_bucket_name)\n\n    blob_copy
+          = source_bucket.copy_blob(\n        source_blob, destination_bucket, destination_blob_name\n    )\n\n    print(\n        \"Blob
+          {} in bucket {} copied to blob {} in bucket {}.\".format(\n            source_blob.name,\n            source_bucket.name,\n            blob_copy.name,\n            destination_bucket.name,\n        )\n    )\n\n    return
+          (destination_blob_name)\n\ndef _serialize_str(str_value: str) -> str:\n    if
+          not isinstance(str_value, str):\n        raise TypeError(''Value \"{}\"
+          has type \"{}\" instead of str.''.format(str(str_value), str(type(str_value))))\n    return
+          str_value\n\nimport argparse\n_parser = argparse.ArgumentParser(prog=''Overwrite
+          production model'', description='''')\n_parser.add_argument(\"--root\",
+          dest=\"root\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--input-path\",
+          dest=\"input_path\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--model-id\",
+          dest=\"model_id\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"--version\",
+          dest=\"version\", type=str, required=True, default=argparse.SUPPRESS)\n_parser.add_argument(\"----output-paths\",
+          dest=\"_output_paths\", type=str, nargs=1)\n_parsed_args = vars(_parser.parse_args())\n_output_files
+          = _parsed_args.pop(\"_output_paths\", [])\n\n_outputs = overwrite_production_model(**_parsed_args)\n\n_output_serializers
+          = [\n    _serialize_str,\n\n]\n\nimport os\nfor idx, output_file in enumerate(_output_files):\n    try:\n        os.makedirs(os.path.dirname(output_file))\n    except
+          OSError:\n        pass\n    with open(output_file, ''w'') as f:\n        f.write(_output_serializers[idx](_outputs[idx]))\n"],
+          "image": "gcr.io/trr-assignments-staging/base_image:latest"}}, "inputs":
+          [{"name": "root", "type": "String"}, {"name": "input_path", "type": "String"},
+          {"name": "model_id", "type": "String"}, {"name": "version", "type": "String"}],
+          "name": "Overwrite production model", "outputs": [{"name": "destination_blob_name",
+          "type": "String"}]}', pipelines.kubeflow.org/component_ref: '{}', pipelines.kubeflow.org/arguments.parameters: '{"input_path":
+          "{{inputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}",
+          "model_id": "{{inputs.parameters.model_id}}", "root": "{{inputs.parameters.gcs_root}}",
+          "version": "{{inputs.parameters.version_id}}"}'}
   - name: pricing-training-test
     inputs:
       parameters:
@@ -650,7 +652,6 @@ spec:
       - {name: model_id}
       - {name: project_id}
       - {name: region}
-      - {name: replace_existing_version}
       - {name: source_table_name}
       - {name: version_id}
     dag:
@@ -689,9 +690,8 @@ spec:
         dependencies: [evaluate-model, submitting-a-cloud-ml-training-job-as-a-pipeline-step-2]
         arguments:
           parameters:
+          - {name: gcs_root, value: '{{inputs.parameters.gcs_root}}'}
           - {name: model_id, value: '{{inputs.parameters.model_id}}'}
-          - {name: project_id, value: '{{inputs.parameters.project_id}}'}
-          - {name: replace_existing_version, value: '{{inputs.parameters.replace_existing_version}}'}
           - {name: submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir,
             value: '{{tasks.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2.outputs.parameters.submitting-a-cloud-ml-training-job-as-a-pipeline-step-2-job_dir}}'}
           - {name: version_id, value: '{{inputs.parameters.version_id}}'}
@@ -1114,7 +1114,6 @@ spec:
     - {name: evaluation_metric_threshold}
     - {name: model_id}
     - {name: version_id}
-    - {name: replace_existing_version}
     - {name: hypertune_settings, value: '{''hyperparameters'': {''goal'': ''MAXIMIZE'',
         ''maxTrials'': 2, ''maxParallelTrials'': 2, ''hyperparameterMetricTag'': ''accuracy'',
         ''enableTrialEarlyStopping'': True, ''params'': [{''parameterName'': ''min_samples_leaf'',
