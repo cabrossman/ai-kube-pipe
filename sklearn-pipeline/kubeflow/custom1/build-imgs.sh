@@ -1,10 +1,13 @@
+source ./setup.sh
 
-./setup.sh
 
+echo ----------------------
 echo BUILDING TRAINER IMAGE
-gcloud builds submit --timeout 15m --tag $TRAINER_IMG trainer_image
+echo ----------------------
+gcloud builds submit --timeout 15m --tag $TRAINER_IMAGE trainer_image
 
-
+echo ----------------------
 echo BUILDING BASE IMAGE
-gcloud builds submit --timeout 15m --tag $BASE_IMG base_image
+echo ----------------------
+gcloud builds submit --timeout 15m --tag $BASE_IMAGE base_image
 
