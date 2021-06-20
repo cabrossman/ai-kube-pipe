@@ -1,0 +1,6 @@
+absl-py
+tensorflow==2.3.1
+tfx==0.25.0
+tensorflow_data_validation==0.25.0
+tensorflow_model_analysis==0.25.0
+apache-beam[interactive]
