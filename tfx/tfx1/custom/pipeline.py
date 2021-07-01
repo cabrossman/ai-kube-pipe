@@ -48,12 +48,13 @@ from tfx.types.standard_artifacts import InfraBlessing
 ### Assume CWD is in ai-kube-pipe ex: '/Users/christopher.brossman/vs/tuts/kubeflow/ai-kube-pipe/tfx/tfx1'
 os.chdir('/Users/christopher.brossman/vs/tuts/kubeflow/ai-kube-pipe/tfx/tfx1/custom')
 from utils import make_schema, hypertune
+from features import QUERY_TEMPLATE, LABEL_KEY
 
 NOW = time.strftime("%Y%m%d_%H%M%S")
 ARTIFACT_STORE = os.path.join(os.sep, os.getcwd(),'artifact-store')
 SERVING_MODEL_DIR = os.path.join(os.sep, os.getcwd(),'serving_model')
 DATA_ROOT = 'gs://workshop-datasets/covertype/small'
-PIPELINE_NAME = 'tfx-covertype-classifier'
+PIPELINE_NAME = 'tfx-l2i-classifier'
 PIPELINE_ROOT = os.path.join(ARTIFACT_STORE, PIPELINE_NAME, NOW)
 os.makedirs(PIPELINE_ROOT, exist_ok=True)
 
@@ -81,11 +82,11 @@ context = InteractiveContext(
     metadata_connection_config=None)
 
 
-### Get Data
-QUERY_TEMPLATE = 'SELECT * FROM trr-assignments-staging.covertype_dataset.{}'
+### Get Data - doesnt like timestamps/dates. Made very small dataset
+# QUERY_TEMPLATE see template in features.py
 input = example_gen_pb2.Input(splits=[
-                example_gen_pb2.Input.Split(name='train', pattern=QUERY_TEMPLATE.format('training')),
-                example_gen_pb2.Input.Split(name='eval', pattern=QUERY_TEMPLATE.format('validation'))
+                example_gen_pb2.Input.Split(name='train', pattern=QUERY_TEMPLATE.format('train')),
+                example_gen_pb2.Input.Split(name='eval', pattern=QUERY_TEMPLATE.format('eval'))
             ])
 example_gen = BigQueryExampleGen(input_config=input)
 context.run(example_gen, beam_pipeline_args=BEAM_PIPELINE_ARGS)
@@ -165,12 +166,11 @@ metrics_specs = tfma.MetricsSpec(
 
 eval_config = tfma.EvalConfig(
     model_specs=[
-        tfma.ModelSpec(label_key='Cover_Type')
+        tfma.ModelSpec(label_key=LABEL_KEY)
     ],
     metrics_specs=[metrics_specs], ### given above
     slicing_specs=[
-        tfma.SlicingSpec(),
-        tfma.SlicingSpec(feature_keys=['Wilderness_Area'])
+        tfma.SlicingSpec()
     ]
 )
 

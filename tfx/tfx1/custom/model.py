@@ -1,4 +1,4 @@
-"""Covertype Keras WideDeep Classifier."""
+"""Keras WideDeep Classifier."""
 
 import functools
 import absl
@@ -134,7 +134,7 @@ def _build_keras_model(hparams: kerastuner.HyperParameters,
 
   wide = tf.keras.layers.DenseFeatures(wide_columns)(input_layers)
 
-  output = tf.keras.layers.Dense(features.NUM_CLASSES, activation='softmax')(
+  output = tf.keras.layers.Dense(features.NUM_CLASSES, activation='sigmoid')(
                tf.keras.layers.concatenate([deep, wide]))
 
   model = tf.keras.Model(input_layers, output)
@@ -182,7 +182,7 @@ def tuner_fn(fn_args: TrainerFnArgs) -> TunerFnResult:
 #       tune_new_entries=True,
       objective=kerastuner.Objective('val_sparse_categorical_accuracy', 'max'),
       directory=fn_args.working_dir,
-      project_name='covertype_tuning')
+      project_name='l2i_tuning')
   
   train_dataset = _input_fn(
       fn_args.train_files,

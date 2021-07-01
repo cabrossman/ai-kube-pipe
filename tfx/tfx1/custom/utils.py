@@ -78,8 +78,8 @@ def make_schema(context, example_gen, SCHEMA_DIR, SCHEMA_FILE):
     schema_proto_path = '{}/{}'.format(schema_gen.outputs['schema'].get()[0].uri, 'schema.pbtxt')
     schema = tfdv.load_schema_text(schema_proto_path)
 
-    tfdv.set_domain(schema, 'Cover_Type', schema_pb2.IntDomain(name='Cover_Type', min=0, max=6, is_categorical=True))
-    tfdv.set_domain(schema, 'Slope',  schema_pb2.IntDomain(name='Slope', min=0, max=90))
+    tfdv.set_domain(schema, 'lifetime_nps', schema_pb2.FloatDomain(name='lifetime_nps', min=-100.0, max=100.0))
+    tfdv.set_domain(schema, 'has_inquiry_next_30_days',  schema_pb2.BoolDomain(name='has_inquiry_next_30_days'))
     ### tfdv.display_schema(schema=schema) shows new schema, has domain in some cases
 
     ### Write the Schema

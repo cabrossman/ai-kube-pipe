@@ -20,8 +20,7 @@ def _fill_in_missing(x):
       axis=1)
 
 def preprocessing_fn(inputs):
-  """Preprocesses Covertype Dataset."""
-
+  """Preprocesses Dataset."""
   outputs = {}
 
   # Scale numerical features.
@@ -34,7 +33,7 @@ def preprocessing_fn(inputs):
     outputs[features.transformed_name(key)] = tft.compute_and_apply_vocabulary(
         x=_fill_in_missing(inputs[key]), num_oov_buckets=1, vocab_filename=key)
 
-  # Convert Cover_Type to dense tensor.
+  # Convert Target to dense tensor.
   outputs[features.transformed_name(features.LABEL_KEY)] = _fill_in_missing(
       inputs[features.LABEL_KEY])
 
