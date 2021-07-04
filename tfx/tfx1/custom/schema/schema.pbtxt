@@ -130,6 +130,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_conf_views_last_30_days"
@@ -141,6 +144,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -154,6 +160,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_conf_views_last_7_days"
@@ -165,6 +174,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -178,6 +190,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_landing_views_last_30_days"
@@ -189,6 +204,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -202,6 +220,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_landing_views_last_7_days"
@@ -213,6 +234,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -226,6 +250,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_lead_form_submissions_last_30_days"
@@ -237,6 +264,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -250,6 +280,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_lead_form_submissions_last_7_days"
@@ -261,6 +294,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -274,6 +310,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_lead_form_views_last_30_days"
@@ -285,6 +324,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -298,6 +340,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_lead_form_views_last_7_days"
@@ -309,6 +354,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -322,6 +370,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_method_views_last_30_days"
@@ -333,6 +384,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -346,6 +400,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_method_views_last_7_days"
@@ -357,6 +414,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -370,6 +430,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "cf_services_options_views_last_30_days"
@@ -381,6 +444,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -395,6 +461,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -411,6 +480,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -526,18 +598,6 @@ feature {
   }
 }
 feature {
-  name: "count_inquiries"
-  value_count {
-    min: 1
-    max: 1
-  }
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-}
-feature {
   name: "count_promoters"
   value_count {
     min: 1
@@ -610,30 +670,6 @@ feature {
   }
 }
 feature {
-  name: "days_since_last_consignment"
-  value_count {
-    min: 1
-    max: 1
-  }
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-}
-feature {
-  name: "days_since_last_inquiry"
-  value_count {
-    min: 1
-    max: 1
-  }
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-}
-feature {
   name: "days_since_last_purchase"
   value_count {
     min: 1
@@ -656,6 +692,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "designers_dir_views_last_30_days"
@@ -667,6 +706,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -680,6 +722,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "designers_dir_views_last_7_days"
@@ -691,6 +736,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -704,6 +752,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "emails_clicked_last_30_days"
@@ -715,6 +766,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -728,6 +782,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "emails_clicked_last_7_days"
@@ -739,6 +796,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -752,6 +812,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "emails_opened_last_30_days"
@@ -763,6 +826,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -776,6 +842,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "emails_opened_last_7_days"
@@ -787,6 +856,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -831,6 +903,7 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  not_in_environment: "SERVING"
 }
 feature {
   name: "income_range_1"
@@ -868,6 +941,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "item_views_last_3_days"
@@ -879,6 +955,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -892,17 +971,8 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
-}
-feature {
-  name: "items_consigned_last_30_days"
-  value_count {
-    min: 1
-    max: 1
-  }
-  type: FLOAT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -1002,6 +1072,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "num_obsessions_last_30_days"
@@ -1013,6 +1086,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -1026,6 +1102,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "num_obsessions_last_7_days"
@@ -1037,6 +1116,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -1050,6 +1132,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "num_page_views_last_30_days"
@@ -1061,6 +1146,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -1074,6 +1162,9 @@ feature {
     min_fraction: 1.0
     min_count: 1
   }
+  int_domain {
+    min: 0
+  }
 }
 feature {
   name: "num_page_views_last_7_days"
@@ -1085,6 +1176,9 @@ feature {
   presence {
     min_fraction: 1.0
     min_count: 1
+  }
+  int_domain {
+    min: 0
   }
 }
 feature {
@@ -1481,3 +1575,5 @@ string_domain {
   value: "WY"
   value: "YT"
 }
+default_environment: "TRAINING"
+default_environment: "SERVING"
