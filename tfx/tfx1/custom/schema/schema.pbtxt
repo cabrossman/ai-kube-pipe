@@ -456,8 +456,6 @@ feature {
     max: 1
   }
   type: INT
-  bool_domain {
-  }
   presence {
     min_fraction: 1.0
     min_count: 1
@@ -473,10 +471,6 @@ feature {
     max: 1
   }
   type: INT
-  int_domain {
-    min: 0
-    max: 10
-  }
   presence {
     min_fraction: 1.0
     min_count: 1
@@ -1190,18 +1184,6 @@ feature {
   type: INT
   bool_domain {
   }
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-}
-feature {
-  name: "retail_consigned_last_30_days"
-  value_count {
-    min: 1
-    max: 1
-  }
-  type: FLOAT
   presence {
     min_fraction: 1.0
     min_count: 1
