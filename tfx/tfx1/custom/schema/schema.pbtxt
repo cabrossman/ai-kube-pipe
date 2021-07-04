@@ -1,0 +1,1483 @@
+feature {
+  name: "age_range"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "age_range"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value_15_mo"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_order_value_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_sales_price"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_sold_price"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "average_unit_price"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_conf_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_conf_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_conf_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_conf_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_landing_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_landing_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_landing_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_landing_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_submissions_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_submissions_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_submissions_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_submissions_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_lead_form_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_method_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_method_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_method_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_method_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_services_options_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_services_options_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_services_options_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  bool_domain {
+  }
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "cf_services_options_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  int_domain {
+    min: 0
+    max: 10
+  }
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "city"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "closest_location"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "closest_location"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  distribution_constraints {
+    min_domain_mass: 0.9
+  }
+}
+feature {
+  name: "count_appt_detractors"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_appt_promoters"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_appt_surveys"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_consign_detractors"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_consign_promoters"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_consign_surveys"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_detractors"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_inquiries"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_promoters"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_purchase_detractors"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_purchase_promoters"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_purchase_surveys"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "count_surveys"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "days_from_join_to_purchase"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "days_since_last_consignment"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "days_since_last_inquiry"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "days_since_last_purchase"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "designers_dir_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "designers_dir_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "designers_dir_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "designers_dir_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_clicked_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_clicked_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_clicked_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_clicked_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_opened_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_opened_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_opened_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "emails_opened_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "first_look_subscription_type"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "first_look_subscription_type"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "gender"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "gender"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  distribution_constraints {
+    min_domain_mass: 0.95
+  }
+}
+feature {
+  name: "has_inquiry_next_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  bool_domain {
+  }
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "income_range_1"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "income_range_1"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "item_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "item_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "item_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "item_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "items_consigned_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "last_purchase_platform"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "last_purchase_platform"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  
+}
+feature {
+  name: "lifetime_items_consigned"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "lifetime_nps"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "lifetime_nps_appt"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "lifetime_nps_consign"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "lifetime_nps_purchase"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "lifetime_retail_consigned"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_obsessions_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_obsessions_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_obsessions_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_obsessions_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_page_views_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_page_views_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_page_views_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "num_page_views_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "receive_newsletter"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  bool_domain {
+  }
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "retail_consigned_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "session_types"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "session_types"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  distribution_constraints {
+    min_domain_mass: 0.9
+  }
+}
+feature {
+  name: "sources"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "state"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: BYTES
+  domain: "state"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "times_consigned"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_gross_sales"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_gross_sales_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_gross_sales_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_gross_sales_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_gross_sales_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_orders"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sale_units"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sold_last_15_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sold_last_30_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sold_last_3_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sold_last_7_days"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+feature {
+  name: "total_sold_units"
+  value_count {
+    min: 1
+    max: 1
+  }
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+}
+string_domain {
+  name: "age_range"
+  value: "18-34"
+  value: "35-44"
+  value: "45-54"
+  value: "55-64"
+  value: "65+"
+  value: "UKN"
+}
+string_domain {
+  name: "closest_location"
+  value: "\"Atlanta-Buckhead\""
+  value: "\"Austin-Domain\""
+  value: "\"CHILCO\""
+  value: "\"Chicago\""
+  value: "\"DALLCO\""
+  value: "\"DCLCO\""
+  value: "\"Dallas-Knox-Henderson\""
+  value: "\"Greenwich\""
+  value: "\"LALCO\""
+  value: "\"MIALCO\""
+  value: "\"Madison\""
+  value: "\"Marin\""
+  value: "\"NYC-Brooklyn\""
+  value: "\"NYLCO\""
+  value: "\"Newport-Beach\""
+  value: "\"Palm-Beach\""
+  value: "\"Palo-Alto\""
+  value: "\"SFLCO\""
+  value: "\"SOHO\""
+  value: "\"SanFrancisco-UnionSquare\""
+  value: "\"WEHO\""
+  value: "UKN"
+}
+string_domain {
+  name: "first_look_subscription_type"
+  value: "FirstLookSubscription::Platinum"
+  value: "FirstLookSubscription::Regular"
+  value: "UKN"
+}
+string_domain {
+  name: "gender"
+  value: ""
+  value: " "
+  value: "B"
+  value: "F"
+  value: "M"
+  value: "U"
+  value: "UKN"
+}
+string_domain {
+  name: "income_range_1"
+  value: "$100k-$125k"
+  value: "$125k-$150k"
+  value: "$150k-$175k"
+  value: "$15k-$25k"
+  value: "$175k-$200k"
+  value: "$200k-$250k"
+  value: "$250k+"
+  value: "$25k-$35k"
+  value: "$35k-$50k"
+  value: "$50k-$75k"
+  value: "$75k-$100k"
+  value: "< $15k"
+  value: "UKN"
+  value: "other"
+}
+
+string_domain {
+  name: "city"
+  value: "New York"
+  value: "Los Angeles"
+  value: "Brooklyn"
+  value: "Chicago"
+  value: "San Francisco"
+}
+string_domain {
+  name: "last_purchase_platform"
+  value: "UKN"
+  value: "app"
+  value: "desktop"
+  value: "mobile"
+  value: "store"
+  value: "tablet"
+}
+string_domain {
+  name: "session_types"
+  value: "UKN"
+  value: "desktop"
+  value: "desktop,android"
+  value: "desktop,linux,mobile"
+  value: "desktop,mobile"
+  value: "desktop,mobile,shop_ios"
+  value: "desktop,shop_ios"
+  value: "linux"
+  value: "linux,mobile"
+  value: "linux,mobile,android"
+  value: "mobile"
+  value: "mobile,android"
+  value: "mobile,shop_ios"
+  value: "shop_ios"
+  value: "shop_ios,android"
+}
+string_domain {
+  name: "state"
+  value: "AB"
+  value: "AK"
+  value: "AL"
+  value: "AP"
+  value: "AR"
+  value: "AZ"
+  value: "BC"
+  value: "CA"
+  value: "CO"
+  value: "CT"
+  value: "DC"
+  value: "DE"
+  value: "FL"
+  value: "GA"
+  value: "HI"
+  value: "IA"
+  value: "ID"
+  value: "IL"
+  value: "IN"
+  value: "KS"
+  value: "KY"
+  value: "LA"
+  value: "MA"
+  value: "MB"
+  value: "MD"
+  value: "ME"
+  value: "MI"
+  value: "MN"
+  value: "MO"
+  value: "MS"
+  value: "MT"
+  value: "NB"
+  value: "NC"
+  value: "ND"
+  value: "NE"
+  value: "NH"
+  value: "NJ"
+  value: "NL"
+  value: "NM"
+  value: "NS"
+  value: "NT"
+  value: "NV"
+  value: "NY"
+  value: "OH"
+  value: "OK"
+  value: "ON"
+  value: "OR"
+  value: "PA"
+  value: "PE"
+  value: "QC"
+  value: "RI"
+  value: "SC"
+  value: "SD"
+  value: "SK"
+  value: "TN"
+  value: "TX"
+  value: "UKN"
+  value: "UT"
+  value: "VA"
+  value: "VT"
+  value: "WA"
+  value: "WI"
+  value: "WV"
+  value: "WY"
+  value: "YT"
+}

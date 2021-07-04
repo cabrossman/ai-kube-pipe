@@ -53,15 +53,17 @@ from features import QUERY_TEMPLATE, LABEL_KEY
 NOW = time.strftime("%Y%m%d_%H%M%S")
 ARTIFACT_STORE = os.path.join(os.sep, os.getcwd(),'artifact-store')
 SERVING_MODEL_DIR = os.path.join(os.sep, os.getcwd(),'serving_model')
-DATA_ROOT = 'gs://workshop-datasets/covertype/small'
+#DATA_ROOT = 'gs://workshop-datasets/covertype/small'
 PIPELINE_NAME = 'tfx-l2i-classifier'
 PIPELINE_ROOT = os.path.join(ARTIFACT_STORE, PIPELINE_NAME, NOW)
 os.makedirs(PIPELINE_ROOT, exist_ok=True)
 
 GCLOUD_PROJECT = os.getenv('PROJECT_ID')
+TMP_STORAGE = os.getenv('TMP_STORAGE')
 
 JOB_NAME = '{}-{}'.format(PIPELINE_NAME,NOW)
-STORAGE_LOC = 'gs://test-tmp-storage/{}'.format(JOB_NAME)
+STORAGE_LOC = '{}/{}'.format(TMP_STORAGE,JOB_NAME)
+
 
 BEAM_PIPELINE_ARGS = [
     '--project', GCLOUD_PROJECT, 
@@ -71,8 +73,9 @@ BEAM_PIPELINE_ARGS = [
     '--region', 'us-central1'
     ]
 
-SCHEMA_DIR = os.path.join(ARTIFACT_STORE, 'schema')
+SCHEMA_DIR = os.path.join(os.sep, os.getcwd(), 'schema')
 SCHEMA_FILE = os.path.join(SCHEMA_DIR, 'schema.pbtxt')
+ANOMALIES_FILE = os.path.join(SCHEMA_DIR, 'anomalies.pbtxt')
 HYPERTUNE = False
 
 ### Start session interactively
@@ -95,6 +98,7 @@ if not os.path.isdir(SCHEMA_DIR):
     make_schema(context, example_gen, SCHEMA_DIR, SCHEMA_FILE)
 
 
+
 ### Get the external Schema - ImporterNode
 schema_importer = ImporterNode(
     instance_name='Schema_Importer',
@@ -108,6 +112,14 @@ statistics_gen = StatisticsGen(
       schema=schema_importer.outputs['result'],
       ).with_id('compute-eval-stats')
 context.run(statistics_gen) ###RUN
+
+"""
+zdata = example_gen.outputs['examples'].to_json_dict()['artifacts'][0]['artifact']['uri']
+zdata = '{}/train/data_tfrecord-00000-of-00001.gz'.format(zdata)
+stats = tfdv.generate_statistics_from_tfrecord(zdata)
+anomalies = tfdv.validate_statistics(statistics=stats, schema=tfdv.load_schema_text(SCHEMA_FILE))
+print(anomalies.anomaly_info)
+"""
 
 ### Example Validator - produce anamolies
 example_validator = ExampleValidator(

@@ -1,0 +1,14 @@
+session_types: 
+- feature should be hashed since min_domain_mass: 0.9
+
+sources: 
+- feature should be hashed since min_domain_mass: 0.5
+
+gender: 
+- feature should be hashed since min_domain_mass: 0.95
+
+City
+- feature sshould be hashed. Schema needs to include top 5
+
+closest_location
+- feature should be hashed since min_domain_mass: 0.9
